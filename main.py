@@ -26,6 +26,7 @@ async def package_cmd(message, args):
 class Client(discord.Client):
 	async def on_ready(self):
 		print('Bot running')
+		await client.change_presence(activity=discord.Game(name='!help'))
 
 	async def on_message(self, message):
 		# filter
