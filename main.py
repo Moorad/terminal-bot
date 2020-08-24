@@ -43,6 +43,13 @@ class Client(discord.Client):
 		if (command == 'package' or command == 'pkg'):
 			await package_cmd(message, args)
 	
+	async def on_member_join(self, member):
+		await member.add_roles(discord.utils.find(lambda m: m.name.lower() == 'member', member.guild.roles))
+		await discord.utils.find(lambda m: m.name.lower() == 'welcome', member.guild.channels).send(':small_blue_diamond:'+ member.name + ' Joined!')
+
+	async def on_member_remove(self, member):
+		await discord.utils.find(lambda m: m.name.lower() == 'welcome', member.guild.channels).send(':small_orange_diamond:'+ member.name + ' Left.')
+
 	async def on_command_error(self, ctx, error):
 		print(error)
 		ctx.message.channel.send('An unexpected error has occured:\n```' + error + '```');
