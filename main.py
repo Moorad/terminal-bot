@@ -22,6 +22,13 @@ async def package_cmd(message, args):
 	filename = 'index.' + args[1]
 	await message.channel.send(file=discord.File(filename=filename, fp=data))
 
+async def help_cmd(message):
+	embed = discord.Embed(
+		colour=discord.Colour(0x32ffb0),
+		title='Here is a list of available commands!:',
+	 	description="**Programming:**\n`!package [file extension]` or `!pkg [file extension]`\nConverts the last message (usually code) into a file with the specified file extension\n\n**General:**\n`!help`\nThis!")
+
+	await message.channel.send(embed=embed)
 
 class Client(discord.Client):
 	async def on_ready(self):
@@ -43,7 +50,9 @@ class Client(discord.Client):
 
 		if (command == 'package' or command == 'pkg'):
 			await package_cmd(message, args)
-	
+		elif (command == 'help'):
+			await help_cmd(message)
+
 	async def on_member_join(self, member):
 		await member.add_roles(discord.utils.find(lambda m: m.name.lower() == 'member', member.guild.roles))
 		await discord.utils.find(lambda m: m.name.lower() == 'welcome', member.guild.channels).send(':small_blue_diamond:'+ member.name + ' Joined!')
